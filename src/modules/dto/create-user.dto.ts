@@ -15,4 +15,10 @@ export class CreateUserDto {
 
   @ApiProperty()
   password: string;
+
+  @ApiProperty()
+  bio: string;
+
+  @ApiProperty()
+  profile_picture: string;
 }
