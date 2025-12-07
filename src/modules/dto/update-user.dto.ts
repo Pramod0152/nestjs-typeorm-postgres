@@ -12,4 +12,10 @@ export class UpdateUserDto {
 
   @ApiPropertyOptional()
   email: string;
+
+  @ApiPropertyOptional()
+  bio: string;
+
+  @ApiPropertyOptional()
+  profile_picture: string;
 }
