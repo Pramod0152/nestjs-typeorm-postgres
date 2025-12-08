@@ -31,11 +31,23 @@ export class UserDataService {
     });
   }
 
+  async getUserByUsername(username: string) {
+    return this.model.findOne({
+      where: {
+        username: username,
+      },
+    });
+  }
+
   async getUser(id: number) {
     return this.model.findOne({
       where: {
         id: id,
       },
     });
+  }
+
+  async getAllUsers() {
+    return this.model.find();
   }
 }

@@ -1,8 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Global()
 @Module({
+  imports: [JwtModule.register({})],
   providers: [UserService],
   exports: [UserService],
 })

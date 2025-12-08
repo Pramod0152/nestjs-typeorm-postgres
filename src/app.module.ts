@@ -4,6 +4,8 @@ import { ServiceModule } from './bll/service.module';
 import { DalModules } from './dal/dal.modules';
 import { FrontEndModule } from './modules/frontend/frontend.modules';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     FrontEndModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtStrategy],
+  exports: [JwtStrategy],
 })
 export class AppModule {}
