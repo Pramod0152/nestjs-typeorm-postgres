@@ -1,23 +1,36 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './modules/user/user.modules';
-import { User } from './modules/entity/user.entity';
+import { ServiceModule } from './bll/service.module';
+import { DalModules } from './dal/dal.modules';
+import { FrontEndModule } from './modules/frontend/frontend.modules';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: 'pramod123',
-        database: 'postgres',
-        entities: [User],
-        synchronize: true,
-      }),
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const entitiesGlob = __filename.endsWith('.ts')
+          ? 'src/**/*.entity.ts'
+          : 'dist/**/*.entity.js';
+
+        return {
+          type: 'postgres',
+          host: configService.get('DB_HOST'),
+          port: +configService.get('DB_PORT'),
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB_NAME'),
+          entities: [entitiesGlob],
+          synchronize: true,
+        };
+      },
+      inject: [ConfigService],
     }),
-    UserModule,
+    ServiceModule,
+    DalModules,
+    FrontEndModule,
   ],
   controllers: [],
   providers: [],

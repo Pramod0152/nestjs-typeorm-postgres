@@ -8,10 +8,10 @@ export class User {
   @Column()
   username: string;
 
-  @Column()
+  @Column({ nullable: true })
   first_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   last_name: string;
 
   @Column()
@@ -20,9 +20,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  bio: string;
-
-  @Column()
+  @Column({ nullable: true })
   profile_picture: string;
 }
