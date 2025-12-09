@@ -4,13 +4,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../auth/auth.service';
 import { DalModules } from 'src/dal/dal.modules';
 import { UserController } from '../user/user.controller';
-import { UserDataService } from 'src/dal/user.data.service';
+import { AuthController } from '../auth/auth.controller';
 
 @Global()
 @Module({
   imports: [UserModule, DalModules, JwtModule.register({})],
   providers: [AuthService],
   exports: [AuthService],
-  controllers: [UserController],
+  controllers: [AuthController, UserController],
 })
 export class FrontEndModule {}
