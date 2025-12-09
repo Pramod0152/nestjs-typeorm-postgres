@@ -1,36 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../dal/entities/user.entity';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserDataService } from 'src/dal/user.data.service';
 
 @Injectable()
 export class UserService {
-  constructor(
-    // @InjectRepository(User)
-    // private readonly userRepository: Repository<User>,
-  ) {}
+  constructor(private readonly userDataService: UserDataService) {}
 
-  // async createUser(userData: CreateUserDto) {
-  //   const user = this.userRepository.create(userData);
-  //   return this.userRepository.save(user);
-  // }
+  async getUser(id: number) {
+    const user = await this.userDataService.getUser(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return user;
+  }
 
-  // async getUserById(id: number) {
-  //   return this.userRepository.findOne({ where: { id } });
-  // }
+  async updateUser(id: number, userData: UpdateUserDto) {
+    const user = await this.userDataService.getUser(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return this.userDataService.updateUser(userData, id);
+  }
 
-  // async getUsers() {
-  //   return this.userRepository.find();
-  // }
-
-  // async updateUser(id: number, userData: UpdateUserDto) {
-  //   await this.userRepository.update(id, userData);
-  //   return this.getUserById(id);
-  // }
-
-  // async deleteUser(id: number) {
-  //   await this.userRepository.delete(id);
-  // }
+  async deleteUser(id: number) {
+    const user = await this.userDataService.getUser(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return this.userDataService.deleteUser(id);
+  }
 }

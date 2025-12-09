@@ -4,6 +4,7 @@ import { CreateUserDto } from 'src/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { LoginDto } from 'src/dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,12 +38,28 @@ export class AuthService {
     };
   }
 
-  async getAllUsers() {
-    return this.userDataService.getAllUsers();
-  }
+  async login(body: LoginDto) {
+    const user = await this.userDataService.getUserByEmail(body.email);
+    if (!user) {
+      throw new Error('User with this email does not exist');
+    }
 
-  async getUser(id: number) {
-    return this.userDataService.getUser(id);
+    const isPasswordMatching = await bcrypt.compare(
+      body.password,
+      user.password,
+    );
+
+    if (!isPasswordMatching) {
+      throw new Error('Invalid credentials');
+    }
+
+    const payload = { id: user.id, email: user.email };
+
+    return {
+      message: 'User logged in successfully',
+      access_token: await this.getJwtToken(payload),
+      user: user,
+    };
   }
 
   async getJwtToken(payload: any) {
