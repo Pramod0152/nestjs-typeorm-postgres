@@ -11,11 +11,5 @@ export class UpdateUserDto {
   last_name: string;
 
   @ApiPropertyOptional()
-  email: string;
-
-  @ApiPropertyOptional()
-  bio: string;
-
-  @ApiPropertyOptional()
   profile_picture: string;
 }
