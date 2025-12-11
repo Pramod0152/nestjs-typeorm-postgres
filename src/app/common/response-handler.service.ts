@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GenericResponseDto } from '../../dto/generic-response.dto';
+import { Meta } from '../../dto/meta.dto';
 
 @Injectable()
 export class ResponseHandlerService {
@@ -12,6 +13,7 @@ export class ResponseHandlerService {
     const result: GenericResponseDto<any> = {
       message: message || 'Success',
       data: data,
+      meta: new Meta({}),
     };
 
     return result;

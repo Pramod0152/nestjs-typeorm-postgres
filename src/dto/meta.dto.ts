@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-// import { SeverityType } from '../app/lib/enum';
+import { SeverityType } from '../app/lib/enum';
 
 export class Meta {
   /**
@@ -27,7 +27,8 @@ export class Meta {
   timestamp?: Date;
 
   @ApiProperty()
-  // severity?: SeverityType;
+  severity?: SeverityType;
+
   @ApiProperty()
   stack?: string;
 

@@ -5,8 +5,8 @@ export class GenericResponseDto<T> {
   @ApiPropertyOptional()
   message?: string;
 
-  @ApiPropertyOptional()
-  meta?: Meta;
+  @ApiProperty()
+  meta: Meta;
 
   @ApiProperty()
   data: T;
